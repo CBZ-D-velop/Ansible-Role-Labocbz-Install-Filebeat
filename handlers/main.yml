@@ -1,0 +1,16 @@
+---
+- name: "Enable and start Filebeat"
+  register: filebeat_service_status
+  changed_when: filebeat_service_status.state != "restarted"
+  ansible.builtin.service:
+    name: "filebeat"
+    state: "started"
+    enabled: yes
+
+- name: "Restart Filebeat"
+  register: filebeat_service_status
+  changed_when: filebeat_service_status.state != "restarted"
+  ansible.builtin.service:
+    name: "filebeat"
+    state: "restarted"
+    daemon_reload: true

@@ -1,0 +1,28 @@
+---
+- name: "Converge"
+  hosts: "all"
+  tasks:
+    # replace these tasks with whatever you find suitable to test
+    - name: "Copy something to test use of synchronize module"
+      ansible.builtin.copy:
+        src: "/etc/hosts"
+        dest: "/tmp/hosts-from-controller"
+        mode: 0700
+
+    - name: "Include labocbz.install_filebeat"
+      tags:
+        - "labocbz.install_filebeat"
+      vars:
+        filebeat_major_version: "{{ inv_filebeat_major_version }}"
+        filebeat_config_path: "{{ inv_filebeat_config_path }}"
+        filebeat_cluster_name: "{{ inv_filebeat_cluster_name }}"
+        filebeat_confs_path: "{{ inv_filebeat_confs_path }}"
+        filebeat_ssl_authorities: "{{ inv_filebeat_ssl_authorities }}"
+        filebeat_ssl_path: "{{ inv_filebeat_ssl_path }}"
+        filebeat_logstash_ssl: "{{ inv_filebeat_logstash_ssl }}"
+        filebeat_logstash_hosts: "{{ inv_filebeat_logstash_hosts }}"
+        filebeat_logstash_client_auth: "{{ inv_filebeat_logstash_client_auth }}"
+        filebeat_group: "{{ inv_filebeat_group }}"
+        logstash_workers: "{{ inv_logstash_workers }}"
+      ansible.builtin.include_role:
+        name: "labocbz.install_filebeat"

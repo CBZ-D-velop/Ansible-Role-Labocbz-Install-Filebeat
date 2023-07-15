@@ -1,0 +1,17 @@
+---
+filebeat_major_version: "8"
+
+filebeat_config_path: "/etc/filebeat"
+filebeat_cluster_name: "my.filebeat-cluster.tld"
+filebeat_confs_path: "{{ filebeat_config_path }}/conf.d"
+
+filebeat_ssl_authorities: "/etc/ssl/cacert"
+filebeat_ssl_path: "{{ filebeat_config_path }}/ssl"
+
+filebeat_logstash_ssl: false
+filebeat_logstash_hosts:
+  - "127.0.0.1:9200"
+filebeat_logstash_client_auth: false
+
+filebeat_group: "filebeat"
+logstash_workers: 5

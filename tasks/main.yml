@@ -1,0 +1,44 @@
+---
+- name: "Install packages"
+  ansible.builtin.package:
+    update_cache: true
+    name:
+      - apt-transport-https
+
+- name: "Install Filebeat"
+  notify: "Enable and start Filebeat"
+  block:
+    - name: "Add Filebeat GPG apt Key"
+      ansible.builtin.apt_key:
+        url: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+
+    - name: "Add Filebeat Repository"
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://artifacts.elastic.co/packages/{{ filebeat_major_version }}.x/apt stable main"
+
+    - name: "Update apt and install Filebeat"
+      ansible.builtin.apt:
+        update_cache: true
+        name:
+          - filebeat
+
+- name: "Configure Filebeat"
+  notify: "Restart Filebeat"
+  block:
+    - name: "Import Filebeat configuration file"
+      ansible.builtin.template:
+        src: "templates/filebeat.yml.j2"
+        dest: "{{ filebeat_config_path }}/filebeat.yml"
+        mode: 0700
+        group: "{{ filebeat_group }}"
+        owner: "root"
+        lstrip_blocks: yes
+
+    - name: "Apply permissions on Filebeat conf dir"
+      ansible.builtin.file:
+        path: "{{ filebeat_confs_path }}"
+        state: directory
+        recurse: yes
+        owner: "root"
+        group: "{{ filebeat_group }}"
+        mode: 0700

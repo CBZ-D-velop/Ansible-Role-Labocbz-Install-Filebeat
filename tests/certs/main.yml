@@ -1,0 +1,21 @@
+---
+
+inv_cert_bundles:
+  - name: "My-Local-CA-Authority"
+    type: "CA"
+    src: "/tmp/My-Local-CA-Authority.zip"
+    dest: "/etc/filebeat/ssl"
+    #src_user: "myUser"
+    #src_password: "secretPassword"
+    #dest_user: "root"
+    #dest_group: "root"
+    #dest_mode: "0755"
+  - name: "my.filebeat-cluster.tld"
+    type: "cert"
+    src: "/tmp/my.filebeat-cluster.tld.zip"
+    dest: "/etc/filebeat/ssl"
+    #src_user: "myUser"
+    #src_password: "secretPassword"
+    #dest_user: "root"
+    #dest_group: "root"
+    #dest_mode: "0755"

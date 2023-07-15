@@ -1,0 +1,17 @@
+---
+inv_filebeat_major_version: "8"
+
+inv_filebeat_config_path: "/etc/filebeat"
+inv_filebeat_cluster_name: "my.filebeat-cluster.tld"
+inv_filebeat_confs_path: "{{ inv_filebeat_config_path }}/conf.d"
+
+inv_filebeat_ssl_authorities: "{{ inv_filebeat_ssl_path }}/My-Local-CA-Authority/My-Local-CA-Authority.crt"
+inv_filebeat_ssl_path: "{{ inv_filebeat_config_path }}/ssl"
+
+inv_filebeat_logstash_ssl: true
+inv_filebeat_logstash_hosts:
+  - "127.0.0.1:9200"
+inv_filebeat_logstash_client_auth: true
+
+inv_filebeat_group: "root"
+inv_logstash_workers: 5
