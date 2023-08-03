@@ -20,7 +20,7 @@
 
 filebeat.config.inputs:
   enabled: true
-  path: "{{ filebeat_confs_path }}/*.yml"
+  path: "{{ install_filebeat_confs_path }}/*.yml"
 
 # Each - is an input. Most options can be set at the input level, so
 # you can use different inputs for various configurations.
@@ -69,10 +69,10 @@ filebeat.config.modules:
   path: ${path.config}/modules.d/*.yml
 
   # Set to true to enable config reloading
-  reload.enabled: false
+  reload.enabled: true
 
   # Period on which files under path should be checked for changes
-  #reload.period: 10s
+  reload.period: "{{ install_filebeat_confs_reload }}"
 
 # ======================= Elasticsearch template setting =======================
 
@@ -160,11 +160,11 @@ setup.kibana:
 output.logstash:
   enabled: true
   escape_html: true
-  worker: {{ logstash_workers }}
+  worker: {{ install_filebeat_workers }}
   loadbalance: true
   max_retries: 3
   # The Logstash hosts
-  hosts: [{% for host in filebeat_logstash_hosts %}"{{ host }}"{% if not loop.last %},{% endif %}{% endfor %}]
+  hosts: [{% for host in install_filebeat_logstash_hosts %}"{{ host }}"{% if not loop.last %},{% endif %}{% endfor %}]
 
   # Optional SSL. By default is off.
   # List of root certificates for HTTPS server verifications
@@ -176,11 +176,12 @@ output.logstash:
   # Client Certificate Key
   #ssl.key: "/etc/pki/client/cert.key"
 
-{% if filebeat_logstash_ssl and filebeat_logstash_client_auth %}
-  ssl.certificate_authorities: ["{{ filebeat_ssl_authorities }}"]
-  ssl.certificate: "{{ filebeat_ssl_path }}/{{ filebeat_cluster_name }}.crt"
-  ssl.key: "{{ filebeat_ssl_path }}/{{ filebeat_cluster_name }}.key"
-
+{% if (install_filebeat_logstash_ssl | default(false)) or (install_filebeat_logstash_client_auth | default(false)) %}
+{% if install_filebeat_logstash_client_auth | default(false) %}
+  ssl.certificate_authorities: ["{{ install_filebeat_ssl_authorities }}"]
+{% endif %}
+  ssl.certificate: "{{ install_filebeat_ssl_crt }}"
+  ssl.key: "{{ install_filebeat_ssl_key }}"
 {% endif %}
 # ================================= Processors =================================
 processors:
@@ -194,7 +195,14 @@ processors:
 
 # Sets log level. The default log level is info.
 # Available log levels are: error, warning, info, debug
-#logging.level: debug
+logging.level: "{{ install_filebeat_loglevel }}"
+logging.to_files: true
+logging.files:
+  path: "/var/log/filebeat"
+  name: "filebeat"
+  keepfiles: {{ install_filebeat_log_keeping }}
+  permissions: "0640"
+  interval: "24h"
 
 # At debug level, you can selectively enable logging only for some components.
 # To enable all selectors use ["*"]. Examples of other selectors are "beat",

@@ -1,17 +1,22 @@
 ---
-filebeat_major_version: "8"
+install_filebeat_major_version: "8"
 
-filebeat_config_path: "/etc/filebeat"
-filebeat_cluster_name: "my.filebeat-cluster.tld"
-filebeat_confs_path: "{{ filebeat_config_path }}/conf.d"
+install_filebeat_config_path: "/etc/filebeat"
+install_filebeat_confs_path: "{{ install_filebeat_config_path }}/conf.d"
 
-filebeat_ssl_authorities: "/etc/ssl/cacert"
-filebeat_ssl_path: "{{ filebeat_config_path }}/ssl"
+install_filebeat_ssl_authorities: "/etc/ssl/cacert"
+install_filebeat_ssl_path: "{{ install_filebeat_config_path }}/ssl"
+install_filebeat_ssl_crt: "{{ install_filebeat_config_path }}/cert.crt"
+install_filebeat_ssl_key: "{{ install_filebeat_config_path }}/key.key"
 
-filebeat_logstash_ssl: false
-filebeat_logstash_hosts:
+install_filebeat_workers: 5
+install_filebeat_confs_reload: 10s
+install_filebeat_loglevel: "info"
+install_filebeat_log_keeping: 31
+
+install_filebeat_logstash_client_auth: false
+install_filebeat_logstash_ssl: false
+install_filebeat_logstash_hosts:
   - "127.0.0.1:9200"
-filebeat_logstash_client_auth: false
 
-filebeat_group: "filebeat"
-logstash_workers: 5
+install_filebeat_group: "filebeat"
