@@ -11,6 +11,8 @@
     - name: "Include labocbz.prepare_host"
       tags:
         - "labocbz.prepare_host"
+      vars:
+        prepare_host_users: "{{ inv_prepare_host_users }}"
       ansible.builtin.include_role:
         name: "labocbz.prepare_host"
 
@@ -28,14 +30,26 @@
       changed_when: output.rc != 0
       ansible.builtin.shell: "echo \"{{ hostvars[host]['ansible_default_ipv4']['address'] }}  {{ host }} # from Molecule\" >> /etc/hosts"
 
-    - name: "Import cryptographic content if needed"
-      run_once: yes
+    - name: "Import cryptographic content if needed (cert)"
       loop: "{{ inv_cert_bundles }}"
       loop_control:
         loop_var: bundle
+      when: inv_cert_bundles is defined and bundle.type == "cert"
       ansible.builtin.copy:
         src: "../../tests/certs/{{ bundle.name }}.zip"
         dest: "/tmp/{{ bundle.name }}.zip"
+        owner: "root"
+        group: "root"
+        mode: 0700
+
+    - name: "Import cryptographic content if needed (CA)"
+      loop: "{{ inv_cert_bundles }}"
+      loop_control:
+        loop_var: bundle
+      when: inv_cert_bundles is defined and bundle.type == "CA"
+      ansible.builtin.copy:
+        src: "../../tests/certs/{{ bundle.name }}"
+        dest: "/tmp/{{ bundle.name }}"
         owner: "root"
         group: "root"
         mode: 0700

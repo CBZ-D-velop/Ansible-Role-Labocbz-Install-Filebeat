@@ -7,8 +7,8 @@
   tasks:
 
     - name: "Get Filebeat service current state"
-      register: filebeat_service_status
-      failed_when: not filebeat_service_status.status.ActiveState == 'active'
+      register: install_filebeat_service_status
+      failed_when: not install_filebeat_service_status.status.ActiveState == 'active'
       ansible.builtin.systemd:
         name: "filebeat"
 
@@ -16,10 +16,10 @@
       register: file_stat
       failed_when: not file_stat.stat.exists
       ansible.builtin.stat:
-        path: "{{ inv_filebeat_config_path }}/filebeat.yml"
+        path: "{{ inv_install_filebeat_config_path }}/filebeat.yml"
 
     - name: "Check Filebeat configurations folder"
       register: file_stat
       failed_when: not file_stat.stat.exists
       ansible.builtin.stat:
-        path: "{{ inv_filebeat_confs_path }}"
+        path: "{{ inv_install_filebeat_confs_path }}"

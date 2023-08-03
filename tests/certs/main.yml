@@ -1,21 +1,24 @@
 ---
 
 inv_cert_bundles:
-  - name: "My-Local-CA-Authority"
+  - name: "My-Local-Ansible-Root-CA.pem.crt"
     type: "CA"
-    src: "/tmp/My-Local-CA-Authority.zip"
-    dest: "/etc/filebeat/ssl"
-    #src_user: "myUser"
-    #src_password: "secretPassword"
-    #dest_user: "root"
-    #dest_group: "root"
-    #dest_mode: "0755"
-  - name: "my.filebeat-cluster.tld"
+    src: "/tmp/My-Local-Ansible-Root-CA.pem.crt"
+
+  - name: "My-Local-Ansible-Intermediate-CA-1.pem.crt"
+    type: "CA"
+    src: "/tmp/My-Local-Ansible-Intermediate-CA-1.pem.crt"
+
+  - name: "My-Local-Ansible-Intermediate-CA-2.pem.crt"
+    type: "CA"
+    src: "/tmp/My-Local-Ansible-Intermediate-CA-2.pem.crt"
+
+  - name: "my-filebeat-cluster.domain.tld"
     type: "cert"
-    src: "/tmp/my.filebeat-cluster.tld.zip"
+    src: "/tmp/my-filebeat-cluster.domain.tld.zip"
     dest: "/etc/filebeat/ssl"
     #src_user: "myUser"
     #src_password: "secretPassword"
-    #dest_user: "root"
-    #dest_group: "root"
-    #dest_mode: "0755"
+    dest_user: "filebeat"
+    dest_group: "filebeat"
+    dest_mode: "0700"
