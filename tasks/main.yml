@@ -1,7 +1,7 @@
 ---
 - name: "Install packages"
   ansible.builtin.package:
-    update_cache: false
+    update_cache: true
     name:
       - "apt-transport-https"
 
@@ -18,7 +18,7 @@
 
     - name: "Update apt and install Filebeat"
       ansible.builtin.apt:
-        update_cache: false
+        update_cache: true
         name:
           - "filebeat"
 
