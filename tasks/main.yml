@@ -14,7 +14,7 @@
 
     - name: "Add Filebeat Repository"
       ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64] https://artifacts.elastic.co/packages/{{ install_filebeat_major_version }}.x/apt stable main"
+        repo: "deb [arch=amd64] https://artifacts.elastic.co/packages/{{ install_filebeat__major_version }}.x/apt stable main"
 
     - name: "Update apt and install Filebeat"
       ansible.builtin.apt:
@@ -28,17 +28,17 @@
     - name: "Import Filebeat configuration file"
       ansible.builtin.template:
         src: "templates/filebeat.yml.j2"
-        dest: "{{ install_filebeat_config_path }}/filebeat.yml"
+        dest: "{{ install_filebeat__config_path }}/filebeat.yml"
         mode: "0700"
-        group: "{{ install_filebeat_group }}"
+        group: "{{ install_filebeat__group }}"
         owner: "root"
         lstrip_blocks: yes
 
     - name: "Apply permissions on Filebeat conf dir"
       ansible.builtin.file:
-        path: "{{ install_filebeat_confs_path }}"
+        path: "{{ install_filebeat__confs_path }}"
         state: directory
         recurse: yes
         owner: "root"
-        group: "{{ install_filebeat_group }}"
+        group: "{{ install_filebeat__group }}"
         mode: "0700"

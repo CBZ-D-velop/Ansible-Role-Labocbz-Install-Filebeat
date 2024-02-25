@@ -106,27 +106,27 @@ Some vars a required to run this role:
 
 ```YAML
 ---
-install_filebeat_major_version: "8"
+install_filebeat__major_version: "8"
 
-install_filebeat_config_path: "/etc/filebeat"
-install_filebeat_confs_path: "{{ install_filebeat_config_path }}/conf.d"
+install_filebeat__config_path: "/etc/filebeat"
+install_filebeat__confs_path: "{{ install_filebeat__config_path }}/conf.d"
 
-install_filebeat_ssl_authorities: "/etc/ssl/cacert"
-install_filebeat_ssl_path: "{{ install_filebeat_config_path }}/ssl"
-install_filebeat_ssl_crt: "{{ install_filebeat_config_path }}/cert.crt"
-install_filebeat_ssl_key: "{{ install_filebeat_config_path }}/key.key"
+install_filebeat__ssl_authorities: "/etc/ssl/cacert"
+install_filebeat__ssl_path: "{{ install_filebeat__config_path }}/ssl"
+install_filebeat__ssl_crt: "{{ install_filebeat__config_path }}/cert.crt"
+install_filebeat__ssl_key: "{{ install_filebeat__config_path }}/key.key"
 
-install_filebeat_workers: 5
-install_filebeat_confs_reload: 10s
-install_filebeat_loglevel: "info"
-install_filebeat_log_keeping: 31
+install_filebeat__workers: 5
+install_filebeat__confs_reload: 10s
+install_filebeat__loglevel: "info"
+install_filebeat__log_keeping: 31
 
-install_filebeat_logstash_client_auth: false
-install_filebeat_logstash_ssl: false
-install_filebeat_logstash_hosts:
+install_filebeat__logstash_client_auth: false
+install_filebeat__logstash_ssl: false
+install_filebeat__logstash_hosts:
   - "127.0.0.1:9200"
 
-install_filebeat_group: "filebeat"
+install_filebeat__group: "filebeat"
 
 ```
 
@@ -139,30 +139,30 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ```YAML
 # From inventory
 ---
-inv_prepare_host_users:
+inv_prepare_host__users:
   - login: "filebeat"
     group: "filebeat"
 
-inv_install_filebeat_major_version: "8"
+inv_install_filebeat__major_version: "8"
 
-inv_install_filebeat_config_path: "/etc/filebeat"
-inv_install_filebeat_confs_path: "{{ inv_install_filebeat_config_path }}/conf.d"
+inv_install_filebeat__config_path: "/etc/filebeat"
+inv_install_filebeat__confs_path: "{{ inv_install_filebeat__config_path }}/conf.d"
 
-inv_install_filebeat_ssl_authorities: "{{ inv_install_filebeat_ssl_path }}/My-Local-CA-Authority/My-Local-CA-Authority.crt"
-inv_install_filebeat_ssl_path: "{{ inv_install_filebeat_config_path }}/ssl"
-inv_install_filebeat_ssl_crt: "{{ inv_install_filebeat_ssl_path }}/cert.crt"
-inv_install_filebeat_ssl_key: "{{ inv_install_filebeat_ssl_path }}/key.key"
+inv_install_filebeat__ssl_authorities: "{{ inv_install_filebeat__ssl_path }}/My-Local-CA-Authority/My-Local-CA-Authority.crt"
+inv_install_filebeat__ssl_path: "{{ inv_install_filebeat__config_path }}/ssl"
+inv_install_filebeat__ssl_crt: "{{ inv_install_filebeat__ssl_path }}/cert.crt"
+inv_install_filebeat__ssl_key: "{{ inv_install_filebeat__ssl_path }}/key.key"
 
-inv_install_filebeat_logstash_ssl: true
-inv_install_filebeat_logstash_hosts:
+inv_install_filebeat__logstash_ssl: true
+inv_install_filebeat__logstash_hosts:
   - "127.0.0.1:5054"
-inv_install_filebeat_logstash_client_auth: true
-inv_install_filebeat_confs_reload: "10s"
-inv_install_filebeat_loglevel: "debug"
-inv_install_filebeat_log_keeping: 31
-inv_install_filebeat_workers: 5
+inv_install_filebeat__logstash_client_auth: true
+inv_install_filebeat__confs_reload: "10s"
+inv_install_filebeat__loglevel: "debug"
+inv_install_filebeat__log_keeping: 31
+inv_install_filebeat__workers: 5
 
-inv_install_filebeat_group: "filebeat"
+inv_install_filebeat__group: "filebeat"
 
 ```
 
@@ -178,21 +178,21 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
 
 ```YAML
 - name: "Include labocbz.install_filebeat"
-    tags:
+  tags:
     - "labocbz.install_filebeat"
-    vars:
-    install_filebeat_major_version: "{{ inv_install_filebeat_major_version }}"
-    install_filebeat_config_path: "{{ inv_install_filebeat_config_path }}"
-    install_filebeat_cluster_name: "{{ inv_install_filebeat_cluster_name }}"
-    install_filebeat_confs_path: "{{ inv_install_filebeat_confs_path }}"
-    install_filebeat_ssl_authorities: "{{ inv_install_filebeat_ssl_authorities }}"
-    install_filebeat_ssl_path: "{{ inv_install_filebeat_ssl_path }}"
-    install_filebeat_logstash_ssl: "{{ inv_install_filebeat_logstash_ssl }}"
-    install_filebeat_logstash_hosts: "{{ inv_install_filebeat_logstash_hosts }}"
-    install_filebeat_logstash_client_auth: "{{ inv_install_filebeat_logstash_client_auth }}"
-    install_filebeat_group: "{{ inv_install_filebeat_group }}"
+  vars:
+    install_filebeat__major_version: "{{ inv_install_filebeat__major_version }}"
+    install_filebeat__config_path: "{{ inv_install_filebeat__config_path }}"
+    install_filebeat__cluster_name: "{{ inv_install_filebeat__cluster_name }}"
+    install_filebeat__confs_path: "{{ inv_install_filebeat__confs_path }}"
+    install_filebeat__ssl_authorities: "{{ inv_install_filebeat__ssl_authorities }}"
+    install_filebeat__ssl_path: "{{ inv_install_filebeat__ssl_path }}"
+    install_filebeat__logstash_ssl: "{{ inv_install_filebeat__logstash_ssl }}"
+    install_filebeat__logstash_hosts: "{{ inv_install_filebeat__logstash_hosts }}"
+    install_filebeat__logstash_client_auth: "{{ inv_install_filebeat__logstash_client_auth }}"
+    install_filebeat__group: "{{ inv_install_filebeat__group }}"
     logstash_workers: "{{ inv_logstash_workers }}"
-    ansible.builtin.include_role:
+  ansible.builtin.include_role:
     name: "labocbz.install_filebeat"
 ```
 
@@ -210,6 +210,11 @@ Here you can put your change to keep a trace of your work and decisions.
 * Molecule now use remote Docker image by Lord Robin Crombez
 * Molecule now use custom Docker image in CI/CD by env vars
 * New CICD with needs and optimization
+
+### 2024-02-24: Fix and CI
+
+* Added support for new CI base
+* Edit all vars with __
 
 ## Authors
 
