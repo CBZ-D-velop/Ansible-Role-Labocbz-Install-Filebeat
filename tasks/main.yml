@@ -1,5 +1,8 @@
 ---
 - name: "Install packages"
+  retries: 3
+  delay: 10
+  until: "output is success"
   ansible.builtin.package:
     update_cache: true
     name:
