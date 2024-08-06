@@ -138,7 +138,7 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ```YAML
 # From inventory
 ---
-inv_prepare_host__users:
+inv_prepare_host__system_users:
   - login: "filebeat"
     group: "filebeat"
 
@@ -147,10 +147,10 @@ inv_install_filebeat__major_version: "8"
 inv_install_filebeat__config_path: "/etc/filebeat"
 inv_install_filebeat__confs_path: "{{ inv_install_filebeat__config_path }}/conf.d"
 
-inv_install_filebeat__ssl_authorities: "{{ inv_install_filebeat__ssl_path }}/My-Local-CA-Authority/My-Local-CA-Authority.crt"
+inv_install_filebeat__ssl_authorities: "{{ inv_install_filebeat__ssl_path }}/my-filebeat-server.domain.tld/ca-chain.pem.crt"
 inv_install_filebeat__ssl_path: "{{ inv_install_filebeat__config_path }}/ssl"
-inv_install_filebeat__ssl_crt: "{{ inv_install_filebeat__ssl_path }}/cert.crt"
-inv_install_filebeat__ssl_key: "{{ inv_install_filebeat__ssl_path }}/key.key"
+inv_install_filebeat__ssl_crt: "{{ inv_install_filebeat__ssl_path }}/my-filebeat-server.domain.tld/my-filebeat-server.domain.tld.pem.crt"
+inv_install_filebeat__ssl_key: "{{ inv_install_filebeat__ssl_path }}/my-filebeat-server.domain.tld/my-filebeat-server.domain.tld.pem.key"
 
 inv_install_filebeat__logstash_ssl: true
 inv_install_filebeat__logstash_hosts:
@@ -222,6 +222,10 @@ Here you can put your change to keep a trace of your work and decisions.
 * Change CICD vars convention
 * New workers
 * Removed all automation based on branch
+
+### 2024-08-06: Fix CICD
+
+* Fix the CI by set value of certs and SSL/TLS materials
 
 ## Authors
 
