@@ -180,6 +180,7 @@ output.logstash:
 {% if install_filebeat__logstash_client_auth | default(false) %}
   ssl.certificate_authorities: ["{{ install_filebeat__ssl_authorities }}"]
 {% endif %}
+  ssl.enabled: true
   ssl.certificate: "{{ install_filebeat__ssl_crt }}"
   ssl.key: "{{ install_filebeat__ssl_key }}"
 {% endif %}
